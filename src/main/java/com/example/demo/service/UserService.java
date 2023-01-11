@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User does not exist with email: " + email));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario com esse email não existe: " + email));
 
         if (!user.isEnabled()) {
             throw new AppException(HttpStatus.BAD_REQUEST, "User is not verified");

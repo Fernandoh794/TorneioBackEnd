@@ -23,7 +23,7 @@ public class JWTUtils {
     @Value("12345678")
     private String jwtSecret;
 
-    @Value("100000")
+    @Value( "86400000")
     private int jwtExpirationMs;
 
     @Autowired

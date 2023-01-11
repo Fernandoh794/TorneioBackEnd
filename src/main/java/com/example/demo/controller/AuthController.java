@@ -1,16 +1,15 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
-import com.example.demo.model.LoginSuccessResponseMessage;
-import com.example.demo.model.LoginUserRequestBody;
-import com.example.demo.model.RegisterUserRequestBody;
-import com.example.demo.model.ResponseMessage;
+import com.example.demo.model.*;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.HttpRequestService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,4 +57,25 @@ public class AuthController {
                 token
         ));
     }
+
+
+
+    @GetMapping("/user/current")
+    public ResponseEntity<UserCurrentMessage> verifyUserLoggedCurrent(@AuthenticationPrincipal User user) {
+        if (user != null) {
+            UserCurrentMessage message = new UserCurrentMessage(
+                    true,
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail()
+            );
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+
+
+
 }
